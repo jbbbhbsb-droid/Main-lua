@@ -1,0 +1,56 @@
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local BlurFrame = Instance.new("Frame")
+BlurFrame.Size = UDim2.new(0, 520, 0, 330)
+BlurFrame.Position = UDim2.new(0.5, -260, 0.5, -165)
+BlurFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+BlurFrame.BackgroundTransparency = 0.45
+BlurFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+BlurFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 15)
+UICorner.Parent = BlurFrame
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Thickness = 2
+UIStroke.Transparency = 0.35
+UIStroke.Parent = BlurFrame
+
+local Gradient = Instance.new("UIGradient")
+Gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 200, 200)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 180, 180))
+}
+Gradient.Rotation = 45
+Gradient.Parent = BlurFrame
+
+local blur = Instance.new("BlurEffect")
+blur.Size = 12
+blur.Parent = game.Lighting
+
+local OpenButton = Instance.new("TextButton")
+OpenButton.Size = UDim2.new(0, 150, 0, 40)
+OpenButton.Position = UDim2.new(0.5, -75, 0.9, 0)
+OpenButton.AnchorPoint = Vector2.new(0.5, 0)
+OpenButton.Text = "Open / Close Hub"
+OpenButton.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OpenButton.Font = Enum.Font.GothamBold
+OpenButton.TextSize = 16
+OpenButton.Parent = ScreenGui
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(0, 8)
+btnCorner.Parent = OpenButton
+
+local isOpen = true
+OpenButton.MouseButton1Click:Connect(function()
+    isOpen = not isOpen
+    BlurFrame.Visible = isOpen
+    blur.Size = isOpen and 12 or 0
+end)
